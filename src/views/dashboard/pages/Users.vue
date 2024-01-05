@@ -4,8 +4,8 @@
       <Suspense>
         <template #default>
           <div class="">
-            <TheTable :data="users" />
-            <Pagination v-if="users" :loop="users" @send-page-num="getPage" />
+            <TheTable :data="users.users" />
+            <Pagination v-if="users" :loop="users" @sendPageNum="getPage" />
           </div>
         </template>
         <template #fallback>
@@ -25,19 +25,23 @@ import Loader from "@/components/dashboard/Loader.vue";
 import Pagination from "@/components/dashboard/Pagination.vue";
 let users = ref("");
 
-onMounted( () => {
-  fetchUsers()
+onMounted(async () => {
+  await fetchUsers();
 });
 
-const fetchUsers = (page)=> {
-  fetch(`https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=3`)
-    .then((response) => response.json())
-    .then((json) => (users.value = json));
-}
+const fetchUsers = async (page) => {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=3`
+  );
+  users.value = {
+    users: await response.json(),
+    totalCount: response.headers.get("x-total-count"),
+  };
+};
 
-const getPage = (pageNum)=> {
-  fetchUsers(pageNum)
-}
+const getPage = async (pageNum) => {
+  await fetchUsers(pageNum);
+};
 // const Pagination = defineAsyncComponent(
 //   () => import("@/components/dashboard/Pagination.vue")
 // )
