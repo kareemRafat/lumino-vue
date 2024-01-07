@@ -1,4 +1,4 @@
-import './assets/main.scss'
+import './assets/main.css'
 import './assets/js/jquery-1.11.1.min.js'
 import './assets/js/bootstrap.min.js'
 import './assets/js/bootstrap-datepicker.js'

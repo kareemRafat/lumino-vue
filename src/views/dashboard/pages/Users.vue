@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <Suspense>
         <template #default>
-          <div class="">
+          <div>
             <TheTable :data="users.users" />
             <Pagination v-if="users" :loop="users" @sendPageNum="getPage" />
           </div>
